@@ -1,8 +1,5 @@
-// Level F: Passwort steht nur in hint.json im Cache.
+const NEXT_PAGE_URL = "next-level.html";
 
-const NEXT_PAGE_URL = "next-level.html"; // ggf. anpassen
-
-// Service Worker registrieren
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js")
         .then((reg) => {
@@ -15,7 +12,6 @@ if ("serviceWorker" in navigator) {
     console.warn("Service Worker werden von diesem Browser nicht unterstützt.");
 }
 
-// Passwort aus dem Cache lesen
 async function getSecretPassword() {
     const CACHE_NAME = "hackit-level-f-v2";
 
@@ -32,13 +28,11 @@ async function getSecretPassword() {
 
     const data = await response.json();
 
-    console.log("hint.json Inhalt aus Cache:", data);
-
     if (!data.password) {
         throw new Error("In hint.json wurde kein 'password'-Feld gefunden.");
     }
 
-    return atob(data.password); // Base64 -> echtes Passwort
+    return atob(data.password);
 }
 
 const form = document.getElementById("password-form");
@@ -60,7 +54,7 @@ form.addEventListener("submit", async (event) => {
             }, 2000);
         } else {
             message.textContent =
-                "Falsches Passwort. Tipp: Schau dir im DevTools-Tab 'Application/Storage' den Cache Storage genauer an.";
+                "Falsches Passwort. Tipp: Schau dir DevTools-Tab 'Application/Storage' genauer an.";
             message.className = "error";
         }
     } catch (err) {
